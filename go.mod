@@ -5,6 +5,7 @@ go 1.23.5
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/joho/godotenv v1.5.1
+	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
 )
 
@@ -38,5 +39,4 @@ require (
 	golang.org/x/text v0.22.0 // indirect
 	google.golang.org/protobuf v1.36.4 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/driver/mysql v1.5.7 // indirect
 )

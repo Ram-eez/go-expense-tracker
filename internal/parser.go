@@ -8,13 +8,13 @@ import (
 )
 
 type Message struct {
-	id       int64
-	amount   float64
-	date     time.Time
-	merchant string
+	Id       int64
+	Amount   float64
+	Date     time.Time
+	Merchant string
 }
 
-func ParseMessage(message string) {
+func ParseMessage(message string) *Message {
 	fmt.Println("starting")
 	words := strings.Split(message, " ")
 
@@ -29,7 +29,7 @@ func ParseMessage(message string) {
 
 	if !found {
 		fmt.Println("No debited found")
-		return
+		return nil
 	}
 
 	var amountFloat float64
@@ -47,7 +47,22 @@ func ParseMessage(message string) {
 		}
 	}
 
-	fmt.Println(merchant)
+	// var time string
 
-	fmt.Println(amountFloat)
+	// for i, word := range words {
+	// 	if word == "date" {
+	// 		time = words[i+1]
+	// 	}
+	// }
+
+	currentTime := time.Now()
+	// currentTime.Format("2006-01-02 15:04:05")
+
+	newMessage := &Message{
+		Amount:   amountFloat,
+		Date:     currentTime,
+		Merchant: merchant,
+	}
+
+	return newMessage
 }
