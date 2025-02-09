@@ -1,15 +1,13 @@
 package main
 
-import (
-	"expensetracker/api"
-
-	"github.com/gin-gonic/gin"
-)
+import "expensetracker/internal"
 
 func main() {
-	router := gin.Default()
+	// router := gin.Default()
 
-	api.RegisterRoutes(router)
+	// api.RegisterRoutes(router)
 
-	router.Run(":8080")
+	// router.Run(":8080")
+
+	internal.ParseMessage("debited by 900.00 on date 9feb24 trd to rameez")
 }

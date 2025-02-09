@@ -15,23 +15,39 @@ type Message struct {
 }
 
 func ParseMessage(message string) {
+	fmt.Println("starting")
 	words := strings.Split(message, " ")
 
+	found := false
 	for _, word := range words {
-		if strings.ToLower(word) != "debited" {
+		fmt.Println(word)
+		if strings.ToLower(word) == "debited" {
+			found = true
 			break
 		}
+	}
+
+	if !found {
+		fmt.Println("No debited found")
+		return
 	}
 
 	var amountFloat float64
 	for _, word := range words {
-		amount, err := strconv.ParseFloat(word, 64)
-		if err == nil {
-			amountFloat = amount
+		if value, err := strconv.ParseFloat(word, 64); err == nil {
+			amountFloat = value
 			break
 		}
 	}
 
-	fmt.Println(amountFloat)
+	var merchant string
+	for i, word := range words {
+		if word == "to" {
+			merchant = words[i+1]
+		}
+	}
 
+	fmt.Println(merchant)
+
+	fmt.Println(amountFloat)
 }
