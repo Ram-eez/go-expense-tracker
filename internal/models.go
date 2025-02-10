@@ -35,3 +35,11 @@ func (m *Message) CreateTransaction() error {
 	}
 	return nil
 }
+
+func (m *Message) GetTransaction() (*Message, error) {
+	if err := db.First(m, m.Id).Error; err != nil {
+		log.Println("Unable to fetch the trasnaction")
+		return nil, err
+	}
+	return m, nil
+}
