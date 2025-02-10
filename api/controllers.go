@@ -9,7 +9,14 @@ import (
 )
 
 func PostTransaction(c *gin.Context) {
-	var newMessage internal.Message
+
+	msg, err := c.GetRawData()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	newMessage := internal.ParseMessage(string(msg))
+
 	if err := newMessage.CreateTransaction(); err != nil {
 		log.Fatal(err)
 	}
