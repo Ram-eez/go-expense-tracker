@@ -51,3 +51,20 @@ func GetTransactionByID(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, message)
 }
+
+func DeleteTransactionDB(c *gin.Context) {
+	ID := c.Param("trans_id")
+	TransID, err := strconv.ParseInt(ID, 0, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "coud not parse ID"})
+		return
+	}
+
+	message := &internal.Message{Id: TransID}
+	if err := message.DeleteTransactionDB(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "could not delete the message in db"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Message deleted sucessfully"})
+}

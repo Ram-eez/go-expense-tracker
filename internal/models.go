@@ -55,3 +55,15 @@ func (m *Message) GetTransactionDB() error {
 	}
 	return nil
 }
+
+func (m *Message) DeleteTransactionDB() error {
+	if err := db.Where("id = ?", m.Id).Delete(m).Error; err != nil {
+		log.Println("Could not delete the transaction")
+		return err
+	}
+	return nil
+}
+
+func (m *Message) UpdateTransactionDB() {
+
+}
