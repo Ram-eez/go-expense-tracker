@@ -52,7 +52,7 @@ func GetTransactionByID(c *gin.Context) {
 	c.JSON(http.StatusOK, message)
 }
 
-func DeleteTransactionDB(c *gin.Context) {
+func DeleteTransaction(c *gin.Context) {
 	ID := c.Param("trans_id")
 	TransID, err := strconv.ParseInt(ID, 0, 64)
 	if err != nil {
