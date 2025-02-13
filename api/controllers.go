@@ -35,11 +35,9 @@ func GetTransactionByID(c *gin.Context) {
 	}
 
 	message := &internal.Message{Id: TransID}
-	message, err = message.GetTransaction()
-	if err != nil {
+	if err := message.GetTransaction(); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "could not get the message from db"})
 		return
 	}
-
 	c.JSON(http.StatusOK, message)
 }

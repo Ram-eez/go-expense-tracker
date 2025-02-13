@@ -18,6 +18,10 @@ type Message struct {
 	Merchant string    `json:"merchant"`
 }
 
+type MessageList struct {
+	Messages []Message
+}
+
 func init() {
 	config.Connect()
 	db = config.GetDb()
@@ -36,10 +40,18 @@ func (m *Message) CreateTransaction() error {
 	return nil
 }
 
-func (m *Message) GetTransaction() (*Message, error) {
+func (m *MessageList) GetAllTransactions() error {
+	if err := db.Find(m).Error; err != nil {
+		log.Println("Failed to fetch all transactions")
+		return err
+	}
+	return nil
+}
+
+func (m *Message) GetTransaction() error {
 	if err := db.First(m, m.Id).Error; err != nil {
 		log.Println("Unable to fetch the trasnaction")
-		return nil, err
+		return err
 	}
-	return m, nil
+	return nil
 }
