@@ -19,7 +19,7 @@ type Message struct {
 }
 
 type MessageList struct {
-	Messages []Message
+	Messages []Message `gorm:"-"`
 }
 
 func init() {
@@ -32,7 +32,7 @@ func init() {
 	}
 }
 
-func (m *Message) CreateTransaction() error {
+func (m *Message) CreateTransactionDB() error {
 	if err := db.Create(m).Error; err != nil {
 		fmt.Println("failed to create the transaction")
 		return err
@@ -40,15 +40,15 @@ func (m *Message) CreateTransaction() error {
 	return nil
 }
 
-func (m *MessageList) GetAllTransactions() error {
-	if err := db.Find(m).Error; err != nil {
+func (ml *MessageList) GetAllTransactionsFromDB() error {
+	if err := db.Find(&ml.Messages).Error; err != nil {
 		log.Println("Failed to fetch all transactions")
 		return err
 	}
 	return nil
 }
 
-func (m *Message) GetTransaction() error {
+func (m *Message) GetTransactionDB() error {
 	if err := db.First(m, m.Id).Error; err != nil {
 		log.Println("Unable to fetch the trasnaction")
 		return err
