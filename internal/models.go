@@ -41,7 +41,7 @@ func (m *Message) CreateTransactionDB() error {
 }
 
 func (ml *MessageList) GetAllTransactionsFromDB() error {
-	if err := db.Find(&ml.Messages).Error; err != nil {
+	if err := db.Find(ml.Messages).Error; err != nil {
 		log.Println("Failed to fetch all transactions")
 		return err
 	}
@@ -65,10 +65,9 @@ func (m *Message) DeleteTransactionDB() error {
 }
 
 func (m *Message) UpdateTransactionDB() error {
-	if err := db.Model(&m).Where("id = ?", m.Id).Updates(m).Error; err != nil {
-		log.Println("Could not update the trasnaction")
+	if err := db.Model(m).Where("id = ?", m.Id).Updates(m).Error; err != nil {
+		log.Printf("Could not update the trasnaction : %s", err)
 		return err
 	}
-
 	return nil
 }

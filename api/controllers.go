@@ -68,3 +68,25 @@ func DeleteTransaction(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Message deleted sucessfully"})
 }
+
+func UpdateTransaction(c *gin.Context) {
+	ID := c.Param("trans_id")
+	TransID, err := strconv.ParseInt(ID, 0, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "could not parse ID"})
+		return
+	}
+
+	message := &internal.Message{Id: TransID}
+	if err := c.ShouldBindJSON(&message); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "could not parse the json message"})
+		return
+	}
+
+	if err := message.UpdateTransactionDB(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "could not update the transaction"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Successfully updated the transaction"})
+}
