@@ -50,7 +50,7 @@ func (ml *MessageList) GetAllTransactionsFromDB() error {
 
 func (m *Message) GetTransactionDB() error {
 	if err := db.First(m, m.Id).Error; err != nil {
-		log.Println("Unable to fetch the trasnaction")
+		log.Println("Unable to fetch the transaction")
 		return err
 	}
 	return nil
@@ -64,6 +64,11 @@ func (m *Message) DeleteTransactionDB() error {
 	return nil
 }
 
-func (m *Message) UpdateTransactionDB() {
+func (m *Message) UpdateTransactionDB() error {
+	if err := db.Model(&m).Where("id = ?", m.Id).Updates(m).Error; err != nil {
+		log.Println("Could not update the trasnaction")
+		return err
+	}
 
+	return nil
 }
