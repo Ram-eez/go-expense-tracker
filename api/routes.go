@@ -7,4 +7,5 @@ func RegisterRoutes(router *gin.Engine) {
 	router.GET("/transaction/:trans_id", GetTransactionByID)
 	router.GET("/transaction/all", GetAllTransactions)
 	router.DELETE("/transaction/:trans_id", DeleteTransaction)
+	router.PATCH("/transaction/:trans_id", UpdateTransaction)
 }
