@@ -90,3 +90,7 @@ func UpdateTransaction(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Successfully updated the transaction"})
 }
+
+func SortByDateAsc(c *gin.Context) {
+
+}

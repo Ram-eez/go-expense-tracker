@@ -71,3 +71,11 @@ func (m *Message) UpdateTransactionDB() error {
 	}
 	return nil
 }
+
+func (m *Message) SortByDateAscDB() error {
+	if err := db.Order("amount ASC").Find(m).Error; err != nil {
+		log.Printf("Could not fetch the trasactions : %d", err)
+		return err
+	}
+	return nil
+}
