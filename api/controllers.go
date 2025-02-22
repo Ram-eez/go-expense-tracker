@@ -54,6 +54,24 @@ func SortByAmountDesc(c *gin.Context) {
 	c.JSON(http.StatusOK, messages)
 }
 
+func SortByDateAsc(c *gin.Context) {
+	var messages internal.MessageList
+	if err := messages.SortByDateAscDB(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, messages)
+}
+
+func SortByDateDesc(c *gin.Context) {
+	var messages internal.MessageList
+	if err := messages.SortByDateDescDB(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, messages)
+}
+
 func GetTransactionByID(c *gin.Context) {
 	ID := c.Param("trans_id")
 	TransID, err := strconv.ParseInt(ID, 0, 64)

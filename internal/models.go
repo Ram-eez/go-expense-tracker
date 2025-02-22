@@ -32,14 +32,6 @@ func init() {
 	}
 }
 
-func (m *Message) CreateTransactionDB() error {
-	if err := db.Create(m).Error; err != nil {
-		fmt.Println("failed to create the transaction")
-		return err
-	}
-	return nil
-}
-
 func (ml *MessageList) GetAllTransactionsFromDB() error {
 	if err := db.Find(&ml.Messages).Error; err != nil {
 		log.Println("Failed to fetch all transactions")
@@ -64,9 +56,33 @@ func (ml *MessageList) SortByAmountDescDB() error {
 	return nil
 }
 
+func (ml *MessageList) SortByDateAscDB() error {
+	if err := db.Order("date ASC").Find(&ml.Messages).Error; err != nil {
+		log.Printf("Could not fetch the trasnactions : %d", err)
+		return err
+	}
+	return nil
+}
+
+func (ml *MessageList) SortByDateDescDB() error {
+	if err := db.Order("date DESC").Find(&ml.Messages).Error; err != nil {
+		log.Printf("Could not fetch the trasnactions : %d", err)
+		return err
+	}
+	return nil
+}
+
 func (m *Message) GetTransactionDB() error {
 	if err := db.First(m, m.Id).Error; err != nil {
 		log.Println("Unable to fetch the transaction")
+		return err
+	}
+	return nil
+}
+
+func (m *Message) CreateTransactionDB() error {
+	if err := db.Create(m).Error; err != nil {
+		fmt.Println("failed to create the transaction")
 		return err
 	}
 	return nil
