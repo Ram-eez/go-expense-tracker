@@ -48,9 +48,17 @@ func (ml *MessageList) GetAllTransactionsFromDB() error {
 	return nil
 }
 
-func (ml *MessageList) SortByDateAscDB() error {
+func (ml *MessageList) SortByAmountAscDB() error {
 	if err := db.Order("amount ASC").Find(&ml.Messages).Error; err != nil {
-		log.Printf("Could not fetch the trasactions : %d", err)
+		log.Printf("Could not fetch the transactions : %d", err)
+		return err
+	}
+	return nil
+}
+
+func (ml *MessageList) SortByAmountDescDB() error {
+	if err := db.Order("amount DESC").Find(&ml.Messages).Error; err != nil {
+		log.Printf("Could not fetch the transactions : %d", err)
 		return err
 	}
 	return nil

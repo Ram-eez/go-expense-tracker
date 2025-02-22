@@ -36,9 +36,18 @@ func GetAllTransactions(c *gin.Context) {
 	c.JSON(http.StatusOK, messages)
 }
 
-func SortByDateAsc(c *gin.Context) {
+func SortByAmountAsc(c *gin.Context) {
 	var messages internal.MessageList
-	if err := messages.SortByDateAscDB(); err != nil {
+	if err := messages.SortByAmountAscDB(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, messages)
+}
+
+func SortByAmountDesc(c *gin.Context) {
+	var messages internal.MessageList
+	if err := messages.SortByAmountDescDB(); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
