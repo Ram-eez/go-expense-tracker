@@ -19,7 +19,7 @@ type Message struct {
 }
 
 type MessageList struct {
-	Messages []Message `gorm:"-"`
+	Messages *[]Message `gorm:"-"`
 }
 
 func init() {
@@ -41,8 +41,16 @@ func (m *Message) CreateTransactionDB() error {
 }
 
 func (ml *MessageList) GetAllTransactionsFromDB() error {
-	if err := db.Find(ml.Messages).Error; err != nil {
+	if err := db.Find(&ml.Messages).Error; err != nil {
 		log.Println("Failed to fetch all transactions")
+		return err
+	}
+	return nil
+}
+
+func (ml *MessageList) SortByDateAscDB() error {
+	if err := db.Order("amount ASC").Find(&ml.Messages).Error; err != nil {
+		log.Printf("Could not fetch the trasactions : %d", err)
 		return err
 	}
 	return nil
@@ -67,14 +75,6 @@ func (m *Message) DeleteTransactionDB() error {
 func (m *Message) UpdateTransactionDB() error {
 	if err := db.Model(m).Where("id = ?", m.Id).Updates(m).Error; err != nil {
 		log.Printf("Could not update the trasnaction : %s", err)
-		return err
-	}
-	return nil
-}
-
-func (m *Message) SortByDateAscDB() error {
-	if err := db.Order("amount ASC").Find(m).Error; err != nil {
-		log.Printf("Could not fetch the trasactions : %d", err)
 		return err
 	}
 	return nil

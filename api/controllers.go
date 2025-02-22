@@ -36,6 +36,15 @@ func GetAllTransactions(c *gin.Context) {
 	c.JSON(http.StatusOK, messages)
 }
 
+func SortByDateAsc(c *gin.Context) {
+	var messages internal.MessageList
+	if err := messages.SortByDateAscDB(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, messages)
+}
+
 func GetTransactionByID(c *gin.Context) {
 	ID := c.Param("trans_id")
 	TransID, err := strconv.ParseInt(ID, 0, 64)
@@ -89,8 +98,4 @@ func UpdateTransaction(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Successfully updated the transaction"})
-}
-
-func SortByDateAsc(c *gin.Context) {
-
 }
