@@ -72,6 +72,19 @@ func (ml *MessageList) SortByDateDescDB() error {
 	return nil
 }
 
+func (ml *MessageList) TotalExpensesDB() (float64, error) {
+	if err := db.Find(&ml.Messages).Error; err != nil {
+		log.Printf("Could not fetch the trasnactions : %d", err)
+		return -1, err
+	}
+
+	var TotalAmount float64
+	for _, message := range *ml.Messages {
+		TotalAmount += message.Amount
+	}
+	return TotalAmount, nil
+}
+
 func (m *Message) GetTransactionDB() error {
 	if err := db.First(m, m.Id).Error; err != nil {
 		log.Println("Unable to fetch the transaction")
