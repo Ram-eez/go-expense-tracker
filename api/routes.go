@@ -10,6 +10,7 @@ func RegisterRoutes(router *gin.Engine) {
 	router.GET("/transaction/all/amount/desc", SortByAmountDesc)
 	router.GET("/transaction/all/date/asc", SortByDateAsc)
 	router.GET("/transaction/all/date/desc", SortByDateDesc)
+	router.GET("/transaction/all/total", TotalExpenses)
 	router.DELETE("/transaction/:trans_id", DeleteTransaction)
 	router.PATCH("/transaction/:trans_id", UpdateTransaction)
 }
